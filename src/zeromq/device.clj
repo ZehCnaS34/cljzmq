@@ -33,9 +33,9 @@
    proxy runs in the current thread and returns only if/when the current context
    is closed."
   ([^ZContext context ^ZMQ$Socket frontend ^ZMQ$Socket backend]
-     (proxy context frontend backend nil))
+   (proxy context frontend backend nil))
   ([^ZContext context ^ZMQ$Socket frontend ^ZMQ$Socket backend ^ZMQ$Socket capture]
-     (let [poller (zmq/poller context 2)]
+   (let [poller (zmq/poller context 2)]
        (zmq/register poller frontend :pollin)
        (zmq/register poller backend :pollin)
        (while (and (not (.. Thread currentThread isInterrupted))

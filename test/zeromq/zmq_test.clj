@@ -52,8 +52,8 @@
       (zmq/send-all req [(.getBytes "hello") (.getBytes "world")])
       (let [msg (zmq/receive-all rep)]
         (is (= (vec (first msg)) (vec (.getBytes "hello"))))
-        (is (= (vec (second msg)) (vec (.getBytes "world"))))
-        )
+        (is (= (vec (second msg)) (vec (.getBytes "world")))))
+
       (zmq/send-all rep [(byte-array[])])
       (let [msg (zmq/receive-all req)]
         (is (= (vec (first msg)) []))))))

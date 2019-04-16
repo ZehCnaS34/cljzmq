@@ -5,6 +5,9 @@
    java.nio.ByteBuffer
    java.net.ServerSocket))
 
+(def ^:const charset
+  ZMQ/CHARSET)
+
 (def ^:const version
   {:major (ZMQ/getMajorVersion)
    :minor (ZMQ/getMinorVersion)
@@ -59,9 +62,9 @@
    I/O operations. If your application is using only the inproc transport for
    messaging you may set this to zero, otherwise set it to at least one."
   ([]
-     (ZMQ/context 1))
+   (ZMQ/context 1))
   ([io-threads]
-     (ZMQ/context (int io-threads))))
+   (ZMQ/context (int io-threads))))
 
 (defmulti socket
   "The socket function shall create a ØMQ socket within the specified
@@ -145,10 +148,10 @@
 
 (defn receive-str
   ([^ZMQ$Socket socket]
-     (when-let [^bytes data (.recv socket 0)]
+   (when-let [^bytes data (.recv socket 0)]
        (String. data)))
   ([^ZMQ$Socket socket flags]
-     (when-let [^bytes data (.recv socket (int flags))]
+   (when-let [^bytes data (.recv socket (int flags))]
        (String. data))))
 
 (defn send
@@ -159,29 +162,29 @@
    transmitted to the network, only that it has been queued on the socket and
    ØMQ has assumed responsibility for the message."
   ([^ZMQ$Socket socket ^bytes buf]
-     (.send socket buf 0))
+   (.send socket buf 0))
   ([^ZMQ$Socket socket ^bytes buf flags]
-     (.send socket buf (int flags)))
+   (.send socket buf (int flags)))
   ([^ZMQ$Socket socket ^bytes buf offset length flags]
-     (.send socket buf (int offset) (int length) (int flags))))
+   (.send socket buf (int offset) (int length) (int flags))))
 
 (defn send-byte-buffer
   ([^ZMQ$Socket socket ^ByteBuffer buf]
-     (.sendByteBuffer socket buf 0))
+   (.sendByteBuffer socket buf 0))
   ([^ZMQ$Socket socket ^ByteBuffer buf flags]
-     (.sendByteBuffer socket buf (int flags))))
+   (.sendByteBuffer socket buf (int flags))))
 
 (defn receive-byte-buffer
   ([^ZMQ$Socket socket ^ByteBuffer buf]
-     (.recvByteBuffer socket buf 0))
+   (.recvByteBuffer socket buf 0))
   ([^ZMQ$Socket socket ^ByteBuffer buf flags]
-     (.recvByteBuffer socket buf (int flags))))
+   (.recvByteBuffer socket buf (int flags))))
 
 (defn send-str
   ([^ZMQ$Socket socket ^String message]
-     (.send socket (.getBytes message) 0))
+   (.send socket (.getBytes message) 0))
   ([^ZMQ$Socket socket ^String message flags]
-     (.send socket (.getBytes message) (int flags))))
+   (.send socket (.getBytes message) (int flags))))
 
 (defn ^ZMQ$Socket set-send-hwm
   [^ZMQ$Socket socket ^long size]
@@ -200,6 +203,11 @@
         (set-recv-hwm socket size))
     (.setHWM socket size))
   socket)
+
+(defn frame->string [frame]
+  (String. frame ZMQ/CHARSET))
+
+
 
 (defn receive-more?
   "The receive-more? function shall return true if the message part last
@@ -348,9 +356,9 @@
 
 (defn ^ZContext zcontext
   ([]
-     (zcontext 1))
+   (zcontext 1))
   ([io-threads]
-     (let [^ZContext zctx (ZContext.)]
+   (let [^ZContext zctx (ZContext.)]
        (.setContext zctx (context io-threads))
        zctx)))
 
@@ -376,15 +384,15 @@
 
 (defmethod poller ZMQ$Context
   ([^ZMQ$Context ctx]
-     (.poller ctx 1))
+   (.poller ctx 1))
   ([^ZMQ$Context ctx size]
-     (.poller ctx (int size))))
+   (.poller ctx (int size))))
 
 (defmethod poller ZContext
   ([^ZContext zctx]
-     (.poller ^ZMQ$Context (.getContext zctx) 1))
+   (.poller ^ZMQ$Context (.getContext zctx) 1))
   ([^ZContext zctx size]
-     (.poller ^ZMQ$Context (.getContext zctx) (int size))))
+   (.poller ^ZMQ$Context (.getContext zctx) (int size))))
 
 (defn register [^ZMQ$Poller poller ^ZMQ$Socket socket & events]
   (.register poller socket (int (apply bit-or 0 (keep poller-types events)))))
@@ -394,9 +402,9 @@
 
 (defn poll
   ([^ZMQ$Poller poller]
-     (.poll poller))
+   (.poll poller))
   ([^ZMQ$Poller poller ^long timeout]
-     (.poll poller timeout)))
+   (.poll poller timeout)))
 
 (defn check-poller
   [^ZMQ$Poller poller index type]

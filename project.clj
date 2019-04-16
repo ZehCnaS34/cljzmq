@@ -1,10 +1,10 @@
-(defproject org.zeromq/cljzmq "0.1.5-SNAPSHOT"
-  :description "Clojure binding for ØMQ"
-  :url "https://github.com/zeromq/cljzmq"
+(defproject io.alexsanchez/cljzmq "0.1.5-SNAPSHOT"
+  :description "Clojure binding for ØMQ [Phoenix]"
+  :url "https://github.com/ZehCnaS34/cljzmq"
   :license {:name "LGPLv3+"
             :url "http://www.gnu.org/licenses/lgpl.html"}
-  :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.zeromq/jzmq "3.1.1-SNAPSHOT"]]
+  :dependencies [[org.clojure/clojure "1.10.0"]
+                 [org.zeromq/jeromq "0.5.0"]]
   :codox {:src-dir-uri "http://github.com/zeromq/cljzmq/blob/master"
           :src-linenum-anchor-prefix "L"}
   :profiles
@@ -29,5 +29,9 @@
                   [:email "jcomer@liveops.com"]]
                  [:developer
                   [:name "Ian Bishop"]
-                  [:email "ibishop@liveops.com"]]]
+                  [:email "ibishop@liveops.com"]]
+                 [:developer
+                  [:name "Alex Sanchez"]
+                  [:email "me@alexsanchez.io"]]]
+
   :min-lein-version "2.0.0")
