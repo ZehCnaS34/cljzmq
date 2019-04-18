@@ -350,6 +350,10 @@
   [^ZContext zctx]
   (.close zctx))
 
+(defmethod close ZMQ$Context
+  [^ZMQ$Context zctx]
+  (.close zctx))
+
 (defmethod close ZMQ$Socket
   [^ZMQ$Socket s]
   (.close s))
